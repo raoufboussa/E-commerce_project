@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'core'
+    'core',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,8 @@ DATABASES = {
     }
 }
 SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
 
 if ENVIRONMENT == 'production':
     DEBUG = False

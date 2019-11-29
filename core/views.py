@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
 from .models import Item, Order, OrderItem
+from django.core.paginator import Paginator
 
 
 def Checkout(request):
@@ -21,6 +22,7 @@ def Checkout(request):
 
 class HomeProduct(ListView):
     model = Item
+    paginate_by = 10
     template_name = 'home-page.html'
 
 

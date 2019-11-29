@@ -19,7 +19,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'core'
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -36,7 +39,7 @@ ROOT_URLCONF = 'commerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates/accounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,12 +85,9 @@ if ENVIRONMENT == 'production':
 
 # auth
 AUTHENTICATION_BACKENDS = (
-
-    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
-
 )
 SITE_ID = 1
+
+# CRISPY FORMS
