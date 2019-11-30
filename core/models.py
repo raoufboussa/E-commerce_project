@@ -55,6 +55,12 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
 
+    def get_total_item_price(self):
+        return self.item.price * self.quantity
+
+    def get_total_item_discount_price(self):
+        return self.item.discount_price * self.quantity
+
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
