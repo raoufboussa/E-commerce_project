@@ -23,7 +23,7 @@
             <tbody>
             {% for order_item in objects.items.all %}
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{forloop.counter}}</th>
                 <td>{{order_item.item.title}}</td>
                 <td class="lead">
                     <p class="lead">
@@ -37,16 +37,42 @@
                         {% endif %}
                     </p>
                 </td>
-                <td>{{order_item.quantity}}</td>
                 <td>
+                    <a href="{% url 'core:remove_from_cart_quantity' order_item.item.slug %}"><i class="fas fa-cart-arrow-down mr-3"></i></a>
+                    {{order_item.quantity}}
+                    <a href="{% url 'core:add_to_cart' order_item.item.slug  %}"><i class="fas fa-cart-plus ml-3"></i></a>
+                </td>
+                <td>$
                 {% if order_item.item.discount_price %}
                     {{order_item.get_total_item_discount_price}}
                 {% else %}
                     {{order_item.get_total_item_price}}
                 {% endif %}
+                <a href ="{% url 'core:remove_from_cart' order_item.item.slug %}">
+                <i class="fas fa-trash-alt float-right" style="color:red;"></i></a>
                 </td>
             </tr>
-            {% endfor %} 
+            {% empty %}
+                <tr>
+                    <td colspan="5">your cart is empty </td>
+                </tr>
+                <tr>
+                    <td colspan="5"><a class="btn btn-default " href="{% url 'core:home' %}"> Continue to chopping </a></td>
+                </tr>
+
+            {% endfor %}
+            {% if objects.get_total  %}
+            <tr>
+                <td colspan="4"><b>Order Total</b></td>
+                <td><b>{{objects.get_total}}</b></td> 
+            </tr>
+            <tr>
+                <td colspan="5">
+                <a class="btn btn-warning float-right" href="{% url 'core:checkout' %}">Proceed to checkout</a>
+                <a class="btn btn-default float-right" href="{% url 'core:home' %}">Continue to chopping</a>
+                </td>
+            </tr>
+            {% endif %}
             </tbody>
         </table>
 
