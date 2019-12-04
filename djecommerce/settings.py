@@ -1,10 +1,13 @@
 import os
+from decouple import config
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
+SECRET_KEY = config('SECRET_KEY')
+
 DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
+# SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -20,6 +23,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'core',
     'crispy_forms',
+    'django_countries',
+    'cities_light',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +76,13 @@ DATABASES = {
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
+SIGNUP_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CITIES_LIGHT_TRANSLATION_LANGUAGES = ['fr', 'en']
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['FR']
+CITIES_LIGHT_INCLUDE_CITY_TYPES = ['PPL', 'PPLA', 'PPLA2', 'PPLA3',
+                                   'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT', ]
 
 if ENVIRONMENT == 'production':
     DEBUG = False
@@ -83,3 +95,11 @@ if ENVIRONMENT == 'production':
     SECURE_REDIRECT_EXEMPT = []
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+STRIPE_SECRET_KEY = ""
+# STRIPE_PUBLIC_KEY = ""
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
