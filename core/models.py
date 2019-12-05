@@ -54,7 +54,7 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.title}"
+        return f"{self.quantity} of {self.item.title} , {self.user}"
 
     def get_total_item_price(self):
         return self.item.price * self.quantity
@@ -79,14 +79,33 @@ class Order(models.Model):
         'Billing', on_delete=models.SET_NULL, blank=True, null=True)
     payment = models.ForeignKey(
         'Payment', on_delete=models.SET_NULL, blank=True, null=True)
+    coupon = models.ForeignKey(
+        'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
+
+    def get_total_coupon(self):
+        total = 0.0
+        amount = self.coupon.amount
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total - amount
 
     def get_total(self):
         total = 0.0
         for order_item in self.items.all():
             total += order_item.get_final_price()
+        return total
+
+    def get_total_price(self):
+        total = 0.0
+        for order_item in self.items.all():
+            total += order_item.get_total_item_price()
+        return total
+
+    def get_total_price_win(self):
+        total = self.get_total_price() - self.get_total()
         return total
 
 
@@ -114,3 +133,11 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=30)
+    amount = models.FloatField(default=5)
+
+    def __str__(self):
+        return self.code
