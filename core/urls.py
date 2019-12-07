@@ -15,5 +15,6 @@ urlpatterns = [
     path('remove_from_cart_quantity/<slug>/', views.remove_from_cart_quantity,
          name='remove_from_cart_quantity'),
     path('payment/<payment_option>', views.PaymentView.as_view(), name='payment'),
+    path('request-refund/', views.RequestRefundView.as_view(), name='request-refund')
 
 ]
