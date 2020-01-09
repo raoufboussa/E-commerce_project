@@ -1,4 +1,12 @@
 # Django Project 
-## Getting started
+## E-commerce site
 
-stil working with
+### requirements
+    pip install -r requirements --user
+
+### build
+    ./manage.py migrate
+    
+### run
+    ./manage.py runserver
+
